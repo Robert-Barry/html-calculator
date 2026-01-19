@@ -12,42 +12,51 @@
             <div class="row">
                 <input type="text" id="output" name="output" readonly>
             </div>
-            <div class="row">
-                <button onclick="buttonPressed('<')">&lt;</button>
-                <button>AC</button>
-                <button>%</button>
-                <button onclick="buttonPressed('/')">/</button>
-            </div>
-            <div class="row">
-                <button onclick="buttonPressed('7')">7</button>
-                <button onclick="buttonPressed('8')">8</button>
-                <button onclick="buttonPressed('9')">9</button>
-                <button onclick="buttonPressed('*')">x</button>
-            </div>
-            <div class="row">
-                <button onclick="buttonPressed('4')">4</button>
-                <button onclick="buttonPressed('5')">5</button>
-                <button onclick="buttonPressed('6')">6</button>
-                <button onclick="buttonPressed('-')">-</button>
-            </div>
-            <div class="row">
-                <button onclick="buttonPressed('1')">1</button>
-                <button onclick="buttonPressed('2')">2</button>
-                <button onclick="buttonPressed('3')">3</button>
-                <button onclick="buttonPressed('+')">+</button>
-            </div>
-            <div class="row">
-                <button">+/-</button>
-                <button onclick="buttonPressed('0')">0</button>
-                <button>.</button>
-                <button onclick="equalsPressed()">=</button>
+            <div id="buttons-container">
+                <div class="row">
+                    <button>&lt;</button>
+                    <button>AC</button>
+                    <button>%</button>
+                    <button>/</button>
+                </div>
+                <div class="row">
+                    <button>7</button>
+                    <button>8</button>
+                    <button>9</button>
+                    <button>x</button>
+                </div>
+                <div class="row">
+                    <button>4</button>
+                    <button>5</button>
+                    <button>6</button>
+                    <button>-</button>
+                </div>
+                <div class="row">
+                    <button>1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>+</button>
+                </div>
+                <div class="row">
+                    <button>+/-</button>
+                    <button>0</button>
+                    <button>.</button>
+                    <button>=</button>
+                </div>
             </div>
         </div>
         <script>
             // Grab the input that will show the equation and answer
             const output = document.getElementById('output');
+
+            const buttonsConatiner = document.getElementById('buttons-container');
+
             // An array to contain each button that is pressed
             const equation = [];
+
+            buttonsConatiner.addEventListener('click', (event) => {
+                buttonPressed(event.target.textContent);
+            })
             
             // Give the output an empty string
             output.value = '';
@@ -58,10 +67,11 @@
              *     value: the value of the button being pressed
             */
             const buttonPressed = (value) => {
+                console.log(value);
                 // Display the value of the button pressed in the output
-                output.value += value;
+                //output.value += value;
                 // Push the value into an array
-                equation.push(value);
+                //equation.push(value);
             }
             
             /*
@@ -70,18 +80,16 @@
             */
             const equalsPressed = () => {
                 // Create a new array to contain the equation
-                const fullEquation = [];
+                let fullEquation = [];
                 let j = 0; // Used to build a number
                 // Loop through the values in the equation array
                 for (let i = 0; i < equation.length; i++) {
                     // If the value is a number, appened it onto a string
                     if (!isNaN(equation[i])) {
-                        console.log("CHECK: " + fullEquation);
                         if (!fullEquation[j]) {
                             fullEquation[j] = ''; // Ensures the first valeu isn't undefined
                         }
                         fullEquation[j] += equation[i];
-                        console.log("CHECK 2: " + fullEquation);
                     } else {
                         // If the value is not a number, create a new index for the fullEquation array
                         j++;
