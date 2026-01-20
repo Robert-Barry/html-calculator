@@ -23,7 +23,7 @@
                     <button>7</button>
                     <button>8</button>
                     <button>9</button>
-                    <button>x</button>
+                    <button>*</button>
                 </div>
                 <div class="row">
                     <button>4</button>
@@ -57,9 +57,12 @@
             buttonsConatiner.addEventListener('click', (event) => {
                 buttonPressed(event.target.textContent);
             })
+
+            const isOperand = (str) => {
+                return str === '+' || str === '-' || str === '*' || str === '/';
+            }
             
             // Give the output an empty string
-            output.value = '';
 
             /*
              * Function to handle a generic button press of the calculator
@@ -67,11 +70,37 @@
              *     value: the value of the button being pressed
             */
             const buttonPressed = (value) => {
-                console.log(value);
-                // Display the value of the button pressed in the output
-                //output.value += value;
-                // Push the value into an array
-                //equation.push(value);
+                // Check that the value is a Number
+                // If it isn't, check if it is an operand
+                if (Number(value) >= 0 && Number(value) <= 9) {
+                    // If the last string in the equation array is not a number
+                    // or the equation array is empty, push the number to the array
+                    // else concat the number onto the final value of the array
+                    if (Number.isNaN(Number(equation.at(-1))) || equation.length === 0) {
+                        equation.push(value)
+                    } else {
+                        equation[equation.length - 1] = equation[equation.length - 1] + value;
+                    }
+                // If value is an operand, check if the previous value is a number or an operand.
+                // If either, then push the operand onto the array  
+                } else if (isOperand(value)) {
+                    if (isOperand(equation.at(-1))) {
+                        equation[equation.length - 1] = value;
+                    }
+                    if (!Number.isNaN(equation.at(-1)) && equation.at(-1) != '+' && equation.at(-1) != '-' &&
+                        equation.at(-1) != '*' && equation.at(-1) != '/') {
+                            equation.push(value)
+                        }
+                } else if (value === '=') {
+                    console.log(`Equals: ${value}`);
+                }
+
+                // Push the value into the output for the user to see
+                if (equation.length != 0) {
+                    output.value = equation.join(' ')
+                } else {
+                    output.value = '';
+                }
             }
             
             /*
