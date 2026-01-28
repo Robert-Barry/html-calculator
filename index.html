@@ -14,9 +14,9 @@
             </div>
             <div id="buttons-container">
                 <div class="row">
-                    <button>&lt;</button>
+                    <button disabled>&lt;</button>
                     <button>AC</button>
-                    <button>%</button>
+                    <button disabled>%</button>
                     <button>/</button>
                 </div>
                 <div class="row">
@@ -38,103 +38,14 @@
                     <button>+</button>
                 </div>
                 <div class="row">
-                    <button>+/-</button>
+                    <button disabled>+/-</button>
                     <button>0</button>
-                    <button>.</button>
-                    <button>=</button>
+                    <button disabled>.</button>
+                    <button disabled>=</button>
                 </div>
             </div>
         </div>
-        <script>
-            // Grab the input that will show the equation and answer
-            const output = document.getElementById('output');
-
-            const buttonsConatiner = document.getElementById('buttons-container');
-
-            // An array to contain each button that is pressed
-            let equation = [];
-
-            buttonsConatiner.addEventListener('click', (event) => {
-                buttonPressed(event.target.textContent);
-            })
-            
-            /*
-             * Function to test if a string is an operand
-             * Arguments:
-             *     str: the string to be tested
-            */
-            const isOperand = (str) => {
-                return str === '+' || str === '-' || str === '*' || str === '/';
-            }
-            
-            // Give the output an empty string
-
-            /*
-             * Function to handle a generic button press of the calculator
-             * Arguments:
-             *     value: the value of the button being pressed
-            */
-            const buttonPressed = (value) => {
-                // If the value us a number
-                if (!isNaN(value) && value !== ' ') {
-                    // If the array is empty or the last index is an operand,
-                    // simply push the value to the array.
-                    if (equation.length === 0 || isOperand(equation.at(-1))) {
-                        equation.push(value);
-                    } else {
-                        // Otherwise concat the value to the last index
-                        equation[equation.length - 1] += value;
-                    }
-                // If the value is an operand
-                } else if (isOperand(value)) {
-                    // If the array is not empty
-                    if (equation.length > 0) {
-                        // If the final index of the array is an operand
-                        if (isOperand(equation.at(-1))) {
-                            // Replace the final value with a new operand
-                            equation[equation.length - 1] = value;
-                        } else {
-                            // Otherwise push the new value
-                            equation.push(value);
-                        }
-                    }
-                } else if (value == 'AC') {
-                    equation = [];
-                }
-
-                // Push the value into the output for the user to see
-                if (equation.length != 0) {
-                    output.value = equation.join(' ')
-                } else {
-                    output.value = '';
-                }
-            }
-            
-            /*
-             * A function to evaluate the input to the calculator
-             * and outputs an answer.
-            */
-            const equalsPressed = () => {
-                // Create a new array to contain the equation
-                let fullEquation = [];
-                let j = 0; // Used to build a number
-                // Loop through the values in the equation array
-                for (let i = 0; i < equation.length; i++) {
-                    // If the value is a number, appened it onto a string
-                    if (!isNaN(equation[i])) {
-                        if (!fullEquation[j]) {
-                            fullEquation[j] = ''; // Ensures the first valeu isn't undefined
-                        }
-                        fullEquation[j] += equation[i];
-                    } else {
-                        // If the value is not a number, create a new index for the fullEquation array
-                        j++;
-                        fullEquation[j] = equation[i];
-                        j++;
-                    }
-                }
-                console.log(fullEquation);
-            }
+        <script type="module" src="scripts/main.js">
         </script>
     </body>
 </html>
