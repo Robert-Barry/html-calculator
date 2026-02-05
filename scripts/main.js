@@ -1,4 +1,4 @@
-import { equationBuilder, isOperand, numberForEquation, operandForEquation } from './calculator.js';
+import { equationBuilder, isOperand, numberForEquation, operandForEquation, parseEquation } from './calculator.js';
 
 const buttonPressed = (equation, value) => {
     // If the value is a number
@@ -7,6 +7,10 @@ const buttonPressed = (equation, value) => {
     // If the value is an operand
     } else if (isOperand(value)) {
         return operandForEquation(equation, value);
+    } else if (value === '=') {
+        return parseEquation(equation);
+    } else if (value === 'AC') {
+        return [];
     }
 }
 
@@ -28,37 +32,12 @@ const main = () => {
             if (equation.length != 0) {
                 output.value = equation.join(' ')
             } else {
-                output.value = '';
+                output.value = '0';
             }
         });
     })
 }
 
-            
-/*
- * A function to evaluate the input to the calculator
- * and outputs an answer.
-*/
-const equalsPressed = () => {
-    // Create a new array to contain the equation
-    let fullEquation = [];
-    let j = 0; // Used to build a number
-    // Loop through the values in the equation array
-    for (let i = 0; i < equation.length; i++) {
-    // If the value is a number, appened it onto a string
-        if (!isNaN(equation[i])) {
-            if (!fullEquation[j]) {
-                fullEquation[j] = ''; // Ensures the first valeu isn't undefined
-            }
-            fullEquation[j] += equation[i];
-        } else {
-            // If the value is not a number, create a new index for the fullEquation array
-            j++;
-            fullEquation[j] = equation[i];
-            j++;
-        }
-    }
-    console.log(fullEquation);
-}
+
 
 main();
