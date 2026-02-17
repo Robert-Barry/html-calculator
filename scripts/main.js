@@ -1,16 +1,20 @@
 import { equationBuilder, isOperand, numberForEquation, operandForEquation, parseEquation } from './calculator.js';
 
 const buttonPressed = (equation, value) => {
+    if (value === 'AC') {
+        return [];
+    }
+
+    if (value === '=') {
+        return parseEquation(equation);
+    }
+    
     // If the value is a number
     if (!isNaN(value) && value !== ' ') {
         return numberForEquation(equation, value);
     // If the value is an operand
     } else if (isOperand(value)) {
         return operandForEquation(equation, value);
-    } else if (value === '=') {
-        return parseEquation(equation);
-    } else if (value === 'AC') {
-        return [];
     }
 }
 

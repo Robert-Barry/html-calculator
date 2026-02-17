@@ -171,7 +171,8 @@ const mutateArray = (arr, value, index) => {
 
 /*
  *  Function to parse an array of numbers and operands making up
- *  an equation.
+ *  an equation. Uses the proper order of operations, but only
+ *  for multiplication/division and addition/subtraction.
  * 
  *  Parameters:
  *      equationArray: an array of numbers and operands
