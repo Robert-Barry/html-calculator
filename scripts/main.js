@@ -8,9 +8,9 @@ const buttonPressed = (equation, value) => {
     if (value === '=') {
         return parseEquation(equation);
     }
-    
+
     // If the value is a number
-    if (!isNaN(value) && value !== ' ') {
+    if (!isNaN(value) && value !== ' ' || value === '.') {
         return numberForEquation(equation, value);
     // If the value is an operand
     } else if (isOperand(value)) {

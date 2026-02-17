@@ -25,7 +25,11 @@ export const numberForEquation = (equation, value) => {
     if (equation.length === 0 || isOperand(equation.at(-1))) {
         equation.push(value);
     } else {
-    // Otherwise concat the value to the last index
+        // Check for an already existing decimal in the value
+        if (value === '.' && equation[equation.length - 1].includes('.')) {
+            return equation;
+        }
+        // Otherwise concat the value to the last index
         equation[equation.length - 1] += value;
     }
     return equation;
