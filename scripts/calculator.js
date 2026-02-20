@@ -8,7 +8,7 @@
  *      True if str is an operand.
  */
 export const isOperand = (str) => {
-    return str === '+' || str === '-' || str === '*' || str === '/';
+    return str === '+' || str === '-' || str === '*' || str === '/' || str === '%';
 }
 
 /*
@@ -49,7 +49,7 @@ export const operandForEquation = (equation, value) => {
     // If the array is not empty
     if (equation.length > 0) {
         // If the final index of the array is an operand
-        if (isOperand(equation.at(-1))) {
+        if (isOperand(equation.at(-1)) && equation.at(-1) != '%') {
             // Replace the final value with a new operand
             equation[equation.length - 1] = value;
         } else {
@@ -59,6 +59,7 @@ export const operandForEquation = (equation, value) => {
         return equation;
     }
 }
+
 /*
  *  Function to handle a generic button press of the calculator
 
@@ -185,10 +186,21 @@ const mutateArray = (arr, value, index) => {
  *      A single value array with the result of the equation.
  */
 export const parseEquation = (equationArray) => {
+    console.log('Parse equation called');
     // We'll do 2 passes over the array
     // Copy into a new array
     let newArray = [...equationArray];
-    let result = 0;
+    let index = 1
+    // Look for percentages
+    do {
+        index = newArray.indexOf('%');
+        console.log(index);
+        if (index != -1) {
+            newArray[index - 1] /= 100;
+            newArray.splice(index, 1);
+        }
+    } while (index != -1);
+
     // Pass 1.
     // Loop over the array
     for (let i = 0; i < newArray.length; i++) {
@@ -222,3 +234,5 @@ export const parseEquation = (equationArray) => {
     }
     return newArray;
 }
+
+

@@ -1,4 +1,10 @@
-import { equationBuilder, isOperand, numberForEquation, operandForEquation, parseEquation } from './calculator.js';
+import { 
+    equationBuilder, 
+    isOperand, 
+    numberForEquation, 
+    operandForEquation, 
+    parseEquation,
+} from './calculator.js';
 
 const buttonPressed = (equation, value) => {
     if (value === 'AC') {
