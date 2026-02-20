@@ -156,6 +156,17 @@ const divide = (valueX, valueY) => {
     return valueX / valueY;
 }
 
+const percent = (value) => {
+    return value / 100;
+}
+
+const findPercents = (equation) => {
+    return equation.reduce((acc, element, i) => {
+        if (element === '%') acc.push(i);
+        return acc;
+    }, []);
+}
+
 /*
  *  A convenience function to help with parsing an array.
  *  Parameters:
@@ -186,15 +197,18 @@ const mutateArray = (arr, value, index) => {
  *      A single value array with the result of the equation.
  */
 export const parseEquation = (equationArray) => {
-    console.log('Parse equation called');
-    // We'll do 2 passes over the array
     // Copy into a new array
     let newArray = [...equationArray];
     let index = 1
     // Look for percentages
+    const percentIndexes = findPercents(newArray);
+    console.log(percentIndexes);
+
     do {
+        // Get the index of any percent signs
         index = newArray.indexOf('%');
-        console.log(index);
+
+        // Convert the numbe preceding any percent signs
         if (index != -1) {
             newArray[index - 1] /= 100;
             newArray.splice(index, 1);
