@@ -156,17 +156,6 @@ const divide = (valueX, valueY) => {
     return valueX / valueY;
 }
 
-const percent = (value) => {
-    return value / 100;
-}
-
-const findPercents = (equation) => {
-    return equation.reduce((acc, element, i) => {
-        if (element === '%') acc.push(i);
-        return acc;
-    }, []);
-}
-
 /*
  *  A convenience function to help with parsing an array.
  *  Parameters:
@@ -180,41 +169,21 @@ const mutateArray = (arr, value, index) => {
     // given index
     arr[index - 1] = String(value);
     // Remove the operand and the next value.
-    // This replaces 3 index valuse, for example:
+    // This replaces 3 index values, for example:
     // '2', '+', '4' is replaced with '6' in the array.
     arr.splice(index, 2);
 }
 
 /*
- *  Function to parse an array of numbers and operands making up
- *  an equation. Uses the proper order of operations, but only
- *  for multiplication/division and addition/subtraction.
- * 
+ *  Completes the equation using the order of operations:
+ *  mutlitplication/division then addition/subtraction
  *  Parameters:
- *      equationArray: an array of numbers and operands
- * 
- *  Returns:
- *      A single value array with the result of the equation.
+ *      equationArray: a reference to an array with an equation.
+ *  Return:
+ *      An array with a single value which is the answer to the equation.
  */
-export const parseEquation = (equationArray) => {
-    // Copy into a new array
+const orderOfOperations = (equationArray) => {
     let newArray = [...equationArray];
-    let index = 1
-    // Look for percentages
-    const percentIndexes = findPercents(newArray);
-    console.log(percentIndexes);
-
-    do {
-        // Get the index of any percent signs
-        index = newArray.indexOf('%');
-
-        // Convert the numbe preceding any percent signs
-        if (index != -1) {
-            newArray[index - 1] /= 100;
-            newArray.splice(index, 1);
-        }
-    } while (index != -1);
-
     // Pass 1.
     // Loop over the array
     for (let i = 0; i < newArray.length; i++) {
@@ -247,6 +216,69 @@ export const parseEquation = (equationArray) => {
         }
     }
     return newArray;
+}
+
+/*
+ *  Takes a value and converts it to a percentage.
+ *  Parameters:
+ *      value: the value to be converted
+ *  Returns:
+ *      The value converted to a percentage.
+ */
+const percent = (value) => {
+    return value / 100;
+}
+
+/*
+ *  Finds all of the percent characters in an array
+ *  and returns an array with their indexes.
+ *  Paraneters:
+ *     equation: the equation with potential percent characters.
+ *  Returns:
+ *      An array with the indexes of the percent characters.
+ */
+const findPercents = (equation) => {
+    return equation.reduce((acc, element, i) => {
+        if (element === '%') acc.push(i);
+        return acc;
+    }, []);
+}
+
+
+
+/*
+ *  Function to parse an array of numbers and operands making up
+ *  an equation and returning a result. Uses the proper order of 
+ *  operations, but only for multiplication/division and addition/subtraction.
+ * 
+ *  Parameters:
+ *      equationArray: an array of numbers and operands
+ * 
+ *  Returns:
+ *      A single value array with the result of the equation.
+ */
+export const parseEquation = (equationArray) => {
+    // Copy into a new array
+    let newArray = [...equationArray];
+    let index = 1
+    // Look for percentages
+    const percentIndexes = findPercents(newArray);
+    console.log(percentIndexes);
+
+    /*
+    do {
+        // Get the index of any percent signs
+        index = newArray.indexOf('%');
+
+        // Convert the number preceding any percent signs
+        if (index != -1) {
+            newArray[index - 1] /= 100;
+            newArray.splice(index, 1);
+        }
+    } while (index != -1);
+     */
+
+    return orderOfOperations(newArray);
 }
 
 
